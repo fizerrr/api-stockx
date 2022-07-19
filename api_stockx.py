@@ -1,11 +1,11 @@
-from doctest import OutputChecker
-from email import header
-from nturl2path import url2pathname
-from turtle import ht
-from wsgiref import headers
+import sndhdr
+from typing import ItemsView
 import requests,json
+from snkr import Snkr
 
-def search(query):
+snkrs_list = []
+
+def search(query,list = []):
     url = f'https://stockx.com/api/browse?_search={query}'
 
     headers = {
@@ -26,7 +26,36 @@ def search(query):
 
     html = requests.get(url=url, headers=headers)
     output = json.loads(html.text)
-    return output["Products"][0]
 
-print(search("dunk"))
+    
+    items = int(len(output['Products']))
+    for item in range(0,items):
+        list.append( 
+        Snkr(output["Products"][item]["name"],
+        output["Products"][item]["shoe"],
+        output["Products"][item]["media"]["imageUrl"],
+        output["Products"][item]["media"]["smallImageUrl"],
+        output["Products"][item]["media"]["thumbUrl"],
+        output["Products"][item]["retailPrice"],
+        output["Products"][item]["year"],
+        output["Products"][item]["market"]["lowestAsk"],
+        output["Products"][item]["market"]["lowestAskSize"],
+        output["Products"][item]["market"]["highestBidSize"],
+        output["Products"][item]["market"]["deadstockRangeLow"],
+        output["Products"][item]["market"]["deadstockRangeHigh"],
+        output["Products"][item]["market"]["averageDeadstockPrice"],
+        output["Products"][item]["market"]["lastSale"],
+        output["Products"][item]["market"]["lastSaleSize"],
+        output["Products"][item]["market"]["salesLast72Hours"],
+        ))
+    
 
+
+
+search("nike city market",snkrs_list)
+
+for snkrs in snkrs_list:
+    print(snkrs.name,snkrs.shoe,snkrs.imageUrl ,snkrs.smallImageUrl ,snkrs.thumbUrl ,snkrs.retailPrice ,snkrs.year ,snkrs.lowestAsk ,
+    snkrs.lowestAskSize ,snkrs.highestBidSize ,snkrs.deadstockRangeLow ,snkrs.deadstockRangeHigh ,snkrs.averageDeadstockPrice ,snkrs.lastSale ,
+    snkrs.lastSaleSize,snkrs.salesLast72Hours)
+    print("\n")
