@@ -15,10 +15,11 @@ class Snkr:
       lastSale = None
       lastSaleSize = None
       salesLast72Hours = None
+      urlKey = None
 
       def __init__(self, name,shoe,imageUrl,smallImageUrl,thumbUrl,retailPrice,year,
       lowestAsk,lowestAskSize,highestBidSize,deadstockRangeLow,deadstockRangeHigh,
-      averageDeadstockPrice,lastSale,lastSaleSize,salesLast72Hours):
+      averageDeadstockPrice,lastSale,lastSaleSize,salesLast72Hours,urlKey):
         self.name = name
         self.shoe = shoe
         self.imageUrl = imageUrl
@@ -35,3 +36,4 @@ class Snkr:
         self.lastSale = lastSale
         self.lastSaleSize = lastSaleSize
         self.salesLast72Hours = salesLast72Hours
+        self.urlKey = urlKey

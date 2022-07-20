@@ -1,6 +1,8 @@
+from distutils.command.build_scripts import first_line_re
 import sndhdr
 from typing import ItemsView
-import requests,json
+import requests
+import jsonpickle,json
 from snkr import Snkr
 
 snkrs_list = []
@@ -31,31 +33,41 @@ def search(query,list = []):
     items = int(len(output['Products']))
     for item in range(0,items):
         list.append( 
-        Snkr(output["Products"][item]["name"],
-        output["Products"][item]["shoe"],
-        output["Products"][item]["media"]["imageUrl"],
-        output["Products"][item]["media"]["smallImageUrl"],
-        output["Products"][item]["media"]["thumbUrl"],
-        output["Products"][item]["retailPrice"],
-        output["Products"][item]["year"],
-        output["Products"][item]["market"]["lowestAsk"],
-        output["Products"][item]["market"]["lowestAskSize"],
-        output["Products"][item]["market"]["highestBidSize"],
-        output["Products"][item]["market"]["deadstockRangeLow"],
-        output["Products"][item]["market"]["deadstockRangeHigh"],
-        output["Products"][item]["market"]["averageDeadstockPrice"],
-        output["Products"][item]["market"]["lastSale"],
-        output["Products"][item]["market"]["lastSaleSize"],
-        output["Products"][item]["market"]["salesLast72Hours"],
+        Snkr(
+        str(output["Products"][item]["name"]),
+        str(output["Products"][item]["shoe"]),
+        str(output["Products"][item]["media"]["imageUrl"]),
+        str(output["Products"][item]["media"]["smallImageUrl"]),
+        str(output["Products"][item]["media"]["thumbUrl"]),
+        str(output["Products"][item]["retailPrice"]),
+        str(output["Products"][item]["year"]),
+        str(output["Products"][item]["market"]["lowestAsk"]),
+        str(output["Products"][item]["market"]["lowestAskSize"]),
+        str(output["Products"][item]["market"]["highestBidSize"]),
+        str(output["Products"][item]["market"]["deadstockRangeLow"]),
+        str(output["Products"][item]["market"]["deadstockRangeHigh"]),
+        str(output["Products"][item]["market"]["averageDeadstockPrice"]),
+        str(output["Products"][item]["market"]["lastSale"]),
+        str(output["Products"][item]["market"]["lastSaleSize"]),
+        str(output["Products"][item]["market"]["salesLast72Hours"]),
+        str(output["Products"][item]["urlKey"]),
         ))
     
 
+jsondata = ""
+
+search("Jordan 1 Retro High OG Bleached Coral",snkrs_list)
+first_object = True
+for snkr in snkrs_list:
+    if(first_object):
+        first_object = False
+        jsondata = jsondata + jsonpickle.encode(snkr, unpicklable=False)
+    else:
+        jsondata = jsondata + "," + jsonpickle.encode(snkr, unpicklable=False)
+print('''{ "snkrs" : [''')
+print(jsondata)
+print(''']}''')
 
 
-search("nike city market",snkrs_list)
 
-for snkrs in snkrs_list:
-    print(snkrs.name,snkrs.shoe,snkrs.imageUrl ,snkrs.smallImageUrl ,snkrs.thumbUrl ,snkrs.retailPrice ,snkrs.year ,snkrs.lowestAsk ,
-    snkrs.lowestAskSize ,snkrs.highestBidSize ,snkrs.deadstockRangeLow ,snkrs.deadstockRangeHigh ,snkrs.averageDeadstockPrice ,snkrs.lastSale ,
-    snkrs.lastSaleSize,snkrs.salesLast72Hours)
-    print("\n")
+
