@@ -15,7 +15,7 @@ def search(query,list = []):
         'accept-encoding': 'utf-8',
         'accept-language': 'en-GB,en;q=0.9',
         'app-platform': 'Iron',
-        'referer': 'https://stockx.com/en-gb',
+        'referer': 'https://stockx.com/pl-eu',
         'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="102", "Google Chrome";v="102"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
@@ -56,7 +56,7 @@ def search(query,list = []):
 
 jsondata = ""
 
-search("Jordan 1 Retro High OG Bleached Coral",snkrs_list)
+search("NikeCraft General Purpose Shoe",snkrs_list)
 first_object = True
 for snkr in snkrs_list:
     if(first_object):
